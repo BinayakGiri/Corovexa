@@ -2,23 +2,30 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Activity, Lock, Mail } from 'lucide-react';
+import { useDispatch } from 'react-redux';
+import { loginSuccess } from '../../features/auth/authSlice';
 
 export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleLogin = (e) => {
     e.preventDefault();
     setError('');
 
-    // Mock Authentication Routing
+    // Mock Authentication Routing with Redux Dispatch
     if (email === 'admin@corovexa.com' && password === 'admin123') {
+      dispatch(loginSuccess({ user: 'Admin User', role: 'admin', token: 'mock-jwt-123' }));
       navigate('/admin/dashboard');
     } else if (email === 'ops@corovexa.com' && password === 'ops123') {
+      dispatch(loginSuccess({ user: 'Ops Manager', role: 'operations_manager', token: 'mock-jwt-456' }));
       navigate('/operations/dashboard');
     } else if (email === 'tech@corovexa.com' && password === 'tech123') {
+      dispatch(loginSuccess({ user: 'Maintenance Tech', role: 'maintenance_tech', token: 'mock-jwt-789' }));
       navigate('/maintenance/dashboard');
     } else {
       setError('Invalid credentials. Try admin@corovexa.com, ops@, or tech@ with password: "role"123');
